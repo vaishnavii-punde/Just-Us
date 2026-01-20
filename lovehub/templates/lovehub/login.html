@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login 💖</title>
+    <link rel="stylesheet" href="{% static 'lovehub/styles.css' %}">
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Welcome Ayush!! 💕</h2>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="/login/">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Your Name 💌" required>
+        <input type="password" name="password" placeholder="Our Secret 💖" required>
+        <button type="submit">Enter Our World 🌸</button>
+    </form>
+</div>
+
+</body>
+</html>
