@@ -67,3 +67,9 @@ button:hover {
 .heart:nth-child(3) { left: 50%; animation-delay: 2s; }
 .heart:nth-child(4) { left: 70%; animation-delay: 3s; }
 .heart:nth-child(5) { left: 90%; animation-delay: 4s; }
+
+a.active {
+    background: whitesmoke;
+    box-shadow: 0 0 10px rgb(243, 110, 170);
+    transform: scale(1.05);
+}

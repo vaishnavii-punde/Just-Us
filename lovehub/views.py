@@ -33,6 +33,7 @@ def login_view(request):
 @login_required(login_url="login")
 def home(request):
     return render(request, "lovehub/home.html")
+
 def about(request):
     return render(request, "lovehub/about.html")
 

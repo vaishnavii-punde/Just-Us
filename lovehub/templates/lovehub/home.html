@@ -72,7 +72,9 @@ window.addEventListener("beforeunload", function () {
     </p>
     
     <div class="hearts">🌸 🌷</div>
-    <a href="/about/" style="
+    <a href="/about/"
+   class="{% if request.path == '/about/' %}active{% endif %}"
+   style="
     display:inline-block;
     margin-top:20px;
     padding:10px 20px;
@@ -80,7 +82,7 @@ window.addEventListener("beforeunload", function () {
     color:white;
     border-radius:15px;
     text-decoration:none;
-    ">
+   ">
     About Us 💕
 </a>
 </div>
