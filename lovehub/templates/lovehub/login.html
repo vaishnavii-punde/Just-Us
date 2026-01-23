@@ -8,8 +8,17 @@
 </head>
 <body>
 
+<!-- Floating hearts -->
+<div class="heart">💕</div>
+<div class="heart">💖</div>
+<div class="heart">💗</div>
+<div class="heart">💝</div>
+<div class="heart">💞</div>
+<div class="heart">💓</div>
+<div class="heart">💘</div>
+
 <div class="login-container">
-    <h2>Welcome Ayush!! 💕</h2>
+    <h2>Welcome Back Ayush!! 💕</h2>
 
     {% if messages %}
         <ul class="messages">
@@ -19,7 +28,7 @@
         </ul>
     {% endif %}
 
-    <form method="post" action="/login/">
+    <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <input type="text" name="username" placeholder="Your Name 💌" required>
         <input type="password" name="password" placeholder="Our Secret 💖" required>
@@ -29,3 +38,5 @@
 
 </body>
 </html>
+```
+

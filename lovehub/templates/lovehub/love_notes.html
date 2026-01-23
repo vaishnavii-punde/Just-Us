@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Notes 💌</title>
+    <link rel="stylesheet" href="{% static 'lovehub/styles.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Love Notes 💌</h1>
+        <p class="subtitle">Sweet messages between us 💕</p>
+        
+        <div class="nav">
+            <a href="{% url 'home' %}" class="btn">🏠 Home</a>
+            <a href="{% url 'memories' %}" class="btn">📸 Memories</a>
+            <a href="{% url 'love_notes' %}" class="btn active">💌 Love Notes</a>
+            <a href="{% url 'about' %}" class="btn">💖 About Us</a>
+            <a href="{% url 'logout' %}" class="btn">🚪 Logout</a>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="success-message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Send Note Form -->
+    <form method="post">
+        {% csrf_token %}
+        <h2 style="color: #764ba2; margin-bottom: 20px;">Send a Love Note 💝</h2>
+        <textarea name="message" placeholder="Write something sweet..." required></textarea>
+        <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">Send Note 💌</button>
+    </form>
+
+    <div class="grid" style="margin-top: 30px;">
+        <!-- Received Notes -->
+        <div class="card">
+            <h2>📬 Received Notes</h2>
+            {% if received_notes %}
+                {% for note in received_notes %}
+                    <div class="note-preview">
+                        <strong>From: {{ note.sender.username }}</strong>
+                        <p>{{ note.message }}</p>
+                        <small>{{ note.created_at|date:"F j, Y - g:i A" }}</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No notes received yet! 💌</p>
+            {% endif %}
+        </div>
+
+        <!-- Sent Notes -->
+        <div class="card">
+            <h2>📮 Sent Notes</h2>
+            {% if sent_notes %}
+                {% for note in sent_notes %}
+                    <div class="note-preview">
+                        <strong>You said:</strong>
+                        <p>{{ note.message }}</p>
+                        <small>{{ note.created_at|date:"F j, Y - g:i A" }}</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>You haven't sent any notes yet! 💕</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
