@@ -11,29 +11,22 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config  # ✅ Import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Use config to read from .env file
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-3ow99rgf1u1gwp6ek#etg$-yv(cvtih!^r=9t_%voy6t0udod$')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+# Rest of your settings...
 ALLOWED_HOSTS = [
     'just-us.onrender.com',
     '.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
-
 # Application definition
 
 INSTALLED_APPS = [
