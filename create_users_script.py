@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 
 def create_users(apps, schema_editor):
     """Create default users for Just-Us"""
-    password = 'keepitsame'  
+    password = 'youarenotmyfriend2714'  
     
     # Create Guddya
     if not User.objects.filter(username='Guddya').exists():
