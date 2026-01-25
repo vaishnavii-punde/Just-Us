@@ -34,3 +34,25 @@ Thumbs.db
 *.pem
 *.key
 secrets.txt
+
+# Database
+db.sqlite3
+db.sqlite3-journal
+
+# Environment variables
+.env
+*.env
+
+# Python
+*.pyc
+__pycache__/
+*.py[cod]
+
+# Static/Media
+/staticfiles/
+/media/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
