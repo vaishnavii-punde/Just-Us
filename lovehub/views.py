@@ -100,3 +100,31 @@ def logout_view(request):
     logout(request)
     messages.success(request, "See you soon! 💕")
     return redirect("login")
+
+
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+def debug_database(request):
+    """Temporary debug view - DELETE AFTER CHECKING"""
+    users = User.objects.all()
+    
+    output = "<h1>Database Debug Info</h1>"
+    output += f"<h2>Total Users: {users.count()}</h2>"
+    
+    if users.count() == 0:
+        output += "<p style='color:red;'>❌ NO USERS IN DATABASE!</p>"
+    else:
+        output += "<ul>"
+        for user in users:
+            output += f"<li><strong>{user.username}</strong> - {user.email} - Is superuser: {user.is_superuser}</li>"
+        output += "</ul>"
+    
+    # Check if our specific users exist
+    guddya_exists = User.objects.filter(username='Guddya').exists()
+    guddu_exists = User.objects.filter(username='guddu').exists()
+    
+    output += f"<p>Guddya exists: {'✅ YES' if guddya_exists else '❌ NO'}</p>"
+    output += f"<p>guddu exists: {'✅ YES' if guddu_exists else '❌ NO'}</p>"
+    
+    return HttpResponse(output)
