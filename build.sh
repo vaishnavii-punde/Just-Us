@@ -10,28 +10,19 @@ python manage.py collectstatic --no-input
 echo "🔄 Running database migrations..."
 python manage.py migrate
 
-echo "👥 Creating users..."
+echo "👥 Creating admin superuser (if not exists)..."
 python manage.py shell <<EOF
 from django.contrib.auth.models import User
 
-password = 'youarenotmyfriend2714'
-
-print('🔍 Checking for users...')
-print(f'Current user count: {User.objects.count()}')
-
-if not User.objects.filter(username='Guddya').exists():
-    User.objects.create_superuser('Guddya', 'guddya@example.com', password)
-    print('✅ Created user: Guddya')
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser('admin', 'admin@example.com', 'AdminPass2025!')
+    print('✅ Created admin user')
+    print('📝 Login at /admin/ with username: admin, password: AdminPass2025!')
 else:
-    print('⚠️  User Guddya already exists')
+    print('⚠️  Admin user already exists')
 
-if not User.objects.filter(username='guddu').exists():
-    User.objects.create_superuser('guddu', 'guddu@example.com', password)
-    print('✅ Created user: guddu')
-else:
-    print('⚠️  User guddu already exists')
-
-print(f'📊 Total users: {User.objects.count()}')
+print(f'📊 Total users in database: {User.objects.count()}')
+print('ℹ️  Create Guddya and guddu users manually at /admin/')
 EOF
 
 echo "✅ Build completed successfully!"

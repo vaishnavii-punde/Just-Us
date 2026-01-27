@@ -1,52 +1,16 @@
+# Database
+db.sqlite3
+db.sqlite3-journal
+
+# Environment
+.env
+*.env
+
 # Python
 *.pyc
 __pycache__/
 *.py[cod]
 *$py.class
-
-# Django
-*.log
-db.sqlite3
-db.sqlite3-journal
-
-# Environment variables - VERY IMPORTANT!
-.env
-*.env
-
-# Media files
-/media/
-
-# Static files
-/staticfiles/
-/static/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Sensitive data
-*.pem
-*.key
-secrets.txt
-
-# Database
-db.sqlite3
-db.sqlite3-journal
-
-# Environment variables
-.env
-*.env
-
-# Python
-*.pyc
-__pycache__/
-*.py[cod]
 
 # Static/Media
 /staticfiles/
@@ -56,3 +20,6 @@ __pycache__/
 .vscode/
 .idea/
 .DS_Store
+
+# User creation scripts (we don't need these anymore)
+create_users_script.py
