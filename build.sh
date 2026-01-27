@@ -25,9 +25,9 @@ else:
     print('⚠️  admin already exists')
 
 # Guddya user
-if not User.objects.filter(username='guddya').exists():
-    User.objects.create_superuser('guddya', 'guddya@example.com', 'ayush2727')
-    print('✅ Created guddya')
+if not User.objects.filter(username='Guddya').exists():
+    User.objects.create_superuser('Guddya', 'guddya@example.com', 'ayush2727')
+    print('✅ Created Guddya')
 else:
     print('⚠️  guddya already exists')
 
