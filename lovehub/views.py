@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from datetime import date
 
-ALLOWED_USERS = ["guddya", "guddu", "admin"]
+ALLOWED_USERS = ["Guddya", "guddu", "admin"]
 
 
 def login_view(request):
@@ -197,6 +197,7 @@ def logout_view(request):
     logout(request)
     messages.success(request, "See you soon! 💕")
     return redirect("login")
+
 
 from django.http import HttpResponse
 from django.contrib.auth.models import User
