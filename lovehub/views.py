@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from datetime import date
 
-ALLOWED_USERS = ["Guddya", "guddu", "admin"]
+ALLOWED_USERS = ["guddya", "guddu", "admin"]
 
 
 def login_view(request):
