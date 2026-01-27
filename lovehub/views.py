@@ -95,3 +95,16 @@ def logout_view(request):
     logout(request)
     messages.success(request, "See you soon! 💕")
     return redirect("login")
+
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+def check_users(request):
+    """Temporary debug - DELETE AFTER CHECKING"""
+    users = User.objects.all()
+    output = f"<h1>Production Database Users</h1>"
+    output += f"<p>Total users: {users.count()}</p><ul>"
+    for user in users:
+        output += f"<li><b>{user.username}</b> - Staff: {user.is_staff} - Superuser: {user.is_superuser}</li>"
+    output += "</ul>"
+    return HttpResponse(output)
