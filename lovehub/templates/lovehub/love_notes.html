@@ -17,8 +17,10 @@
             <a href="{% url 'home' %}" class="btn">🏠 Home</a>
             <a href="{% url 'memories' %}" class="btn">📸 Memories</a>
             <a href="{% url 'love_notes' %}" class="btn active">💌 Love Notes</a>
-            <a href="{% url 'about' %}" class="btn">💖 About Us</a>
-            <a href="{% url 'logout' %}" class="btn">🚪 Logout</a>
+            <a href="{% url 'important_dates' %}" class="btn">📅 Dates</a>
+            <a href="{% url 'love_letters' %}" class="btn">💝 Letters</a>
+            <a href="{% url 'about' %}" class="btn">💖 About</a>
+            <a href="{% url 'logout' %}" class="btn logout-btn">🚪 Logout</a>
         </div>
     </div>
 
@@ -29,23 +31,23 @@
     {% endif %}
 
     <!-- Send Note Form -->
-    <form method="post">
+    <form method="post" class="love-note-form">
         {% csrf_token %}
-        <h2 style="color: #764ba2; margin-bottom: 20px;">Send a Love Note 💝</h2>
+        <h2 style="color: #e91e63; margin-bottom: 20px; text-align: center;">Send a Love Note 💝</h2>
         <textarea name="message" placeholder="Write something sweet..." required></textarea>
         <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">Send Note 💌</button>
     </form>
 
-    <div class="grid" style="margin-top: 30px;">
+    <div class="grid">
         <!-- Received Notes -->
         <div class="card">
             <h2>📬 Received Notes</h2>
             {% if received_notes %}
                 {% for note in received_notes %}
                     <div class="note-preview">
-                        <strong>From: {{ note.sender.username }}</strong>
-                        <p>{{ note.message }}</p>
-                        <small>{{ note.created_at|date:"F j, Y - g:i A" }}</small>
+                        <div class="note-header">From: {{ note.sender.username }} 💕</div>
+                        <p class="note-message">{{ note.message }}</p>
+                        <small class="note-date">{{ note.created_at|date:"F j, Y - g:i A" }}</small>
                     </div>
                 {% endfor %}
             {% else %}
@@ -58,16 +60,26 @@
             <h2>📮 Sent Notes</h2>
             {% if sent_notes %}
                 {% for note in sent_notes %}
-                    <div class="note-preview">
-                        <strong>You said:</strong>
-                        <p>{{ note.message }}</p>
-                        <small>{{ note.created_at|date:"F j, Y - g:i A" }}</small>
+                    <div class="note-preview sent">
+                        <div class="note-header">You said: 💕</div>
+                        <p class="note-message">{{ note.message }}</p>
+                        <small class="note-date">{{ note.created_at|date:"F j, Y - g:i A" }}</small>
                     </div>
                 {% endfor %}
             {% else %}
                 <p>You haven't sent any notes yet! 💕</p>
             {% endif %}
         </div>
+    </div>
+
+    <!-- Beautiful Ending Message -->
+    <div class="ending-message">
+        <div class="hearts-decoration">💕 💖 💗 💝 💞</div>
+        <p class="ending-text">
+            If you ever forget how loved you are… come back here.<br>
+            <strong>This website is proof.</strong>
+        </p>
+        <div class="hearts-decoration">💞 💝 💗 💖 💕</div>
     </div>
 </div>
 

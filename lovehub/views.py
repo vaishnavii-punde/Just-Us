@@ -2,8 +2,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from datetime import date
 
-# Users allowed to access the site
 ALLOWED_USERS = ["guddya", "guddu", "admin"]
 
 
@@ -35,20 +35,25 @@ def home(request):
         return redirect("login")
     
     try:
-        from .models import Memory, ImportantDate
-        from datetime import date
+        from .models import Memory, ImportantDate, LoveNote, LoveLetter
         
         recent_memories = Memory.objects.all()[:3]
-        upcoming_dates = ImportantDate.objects.filter(date__gte=date.today()).order_by('date')[:3]
+        upcoming_dates = ImportantDate.objects.filter(date__gte=date.today())[:3]
+        unread_notes = LoveNote.objects.filter(is_read=False).exclude(sender=request.user)
+        love_letters = LoveLetter.objects.all()[:5]
         
         context = {
             'recent_memories': recent_memories,
             'upcoming_dates': upcoming_dates,
+            'unread_notes_count': unread_notes.count(),
+            'love_letters': love_letters,
         }
     except:
         context = {
             'recent_memories': [],
             'upcoming_dates': [],
+            'unread_notes_count': 0,
+            'love_letters': [],
         }
     
     return render(request, "lovehub/home.html", context)
@@ -85,6 +90,103 @@ def memories(request):
         context = {"memories": []}
     
     return render(request, "lovehub/memories.html", context)
+
+
+@login_required(login_url="login")
+def love_notes(request):
+    if request.user.username not in ALLOWED_USERS:
+        logout(request)
+        return redirect("login")
+    
+    try:
+        from .models import LoveNote
+        
+        if request.method == "POST":
+            message = request.POST.get("message")
+            LoveNote.objects.create(sender=request.user, message=message)
+            messages.success(request, "Love note sent! 💌")
+            return redirect("love_notes")
+        
+        received_notes = LoveNote.objects.exclude(sender=request.user)
+        sent_notes = LoveNote.objects.filter(sender=request.user)
+        
+        received_notes.filter(is_read=False).update(is_read=True)
+        
+        context = {
+            'received_notes': received_notes,
+            'sent_notes': sent_notes,
+        }
+    except:
+        context = {
+            'received_notes': [],
+            'sent_notes': [],
+        }
+    
+    return render(request, "lovehub/love_notes.html", context)
+
+
+@login_required(login_url="login")
+def important_dates(request):
+    if request.user.username not in ALLOWED_USERS:
+        logout(request)
+        return redirect("login")
+    
+    try:
+        from .models import ImportantDate
+        
+        if request.method == "POST":
+            title = request.POST.get("title")
+            date_value = request.POST.get("date")
+            description = request.POST.get("description", "")
+            is_recurring = request.POST.get("is_recurring") == "on"
+            
+            ImportantDate.objects.create(
+                title=title,
+                date=date_value,
+                description=description,
+                is_recurring=is_recurring,
+                created_by=request.user
+            )
+            messages.success(request, "Important date added! 📅")
+            return redirect("important_dates")
+        
+        all_dates = ImportantDate.objects.all()
+        context = {"dates": all_dates}
+    except Exception as e:
+        context = {"dates": [], "error": str(e)}
+    
+    return render(request, "lovehub/important_dates.html", context)
+
+
+@login_required(login_url="login")
+def love_letters(request):
+    if request.user.username not in ALLOWED_USERS:
+        logout(request)
+        return redirect("login")
+    
+    try:
+        from .models import LoveLetter
+        
+        if request.method == "POST":
+            title = request.POST.get("title")
+            content = request.POST.get("content")
+            emoji = request.POST.get("emoji", "💌")
+            
+            LoveLetter.objects.create(
+                title=title,
+                content=content,
+                emoji=emoji,
+                created_by=request.user
+            )
+            messages.success(request, "Love letter created! 💝")
+            return redirect("love_letters")
+        
+        all_letters = LoveLetter.objects.all()
+        context = {"letters": all_letters}
+    except:
+        context = {"letters": []}
+    
+    return render(request, "lovehub/love_letters.html", context)
 
 
 def about(request):

@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Dates 📅</title>
+    <link rel="stylesheet" href="{% static 'lovehub/styles.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Important Dates 📅</h1>
+        <p class="subtitle">Special days we never want to forget 💕</p>
+        
+        <div class="nav">
+            <a href="{% url 'home' %}" class="btn">🏠 Home</a>
+            <a href="{% url 'memories' %}" class="btn">📸 Memories</a>
+            <a href="{% url 'love_notes' %}" class="btn">💌 Love Notes</a>
+            <a href="{% url 'important_dates' %}" class="btn active">📅 Dates</a>
+            <a href="{% url 'love_letters' %}" class="btn">💝 Letters</a>
+            <a href="{% url 'about' %}" class="btn">💖 About</a>
+            <a href="{% url 'logout' %}" class="btn logout-btn">🚪 Logout</a>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="success-message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Add Date Form -->
+    <form method="post" class="date-form">
+        {% csrf_token %}
+        <h2 style="color: #e91e63; margin-bottom: 20px;">Add an Important Date 💝</h2>
+        
+        <label>Title</label>
+        <input type="text" name="title" placeholder="e.g., Our Anniversary" required>
+        
+        <label>Date</label>
+        <input type="date" name="date" required>
+        
+        <label>Description (Optional)</label>
+        <textarea name="description" placeholder="Add some details..." rows="3"></textarea>
+        
+        <div style="display: flex; align-items: center; margin: 15px 0;">
+            <input type="checkbox" name="is_recurring" id="recurring" style="width: auto; margin-right: 10px;">
+            <label for="recurring" style="margin: 0;">
+                Recurring annually (like anniversaries)
+            </label>
+        </div>
+        
+        <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">Save Date 📅</button>
+    </form>
+
+    <!-- Display Dates -->
+    <div class="dates-list">
+        <h2 style="text-align: center; color: #e91e63; margin: 30px 0 20px;">All Important Dates</h2>
+        {% if dates %}
+            {% for date in dates %}
+                <div class="date-card">
+                    <div class="date-left">
+                        <div class="date-day">{{ date.date|date:"d" }}</div>
+                        <div class="date-month">{{ date.date|date:"M" }}</div>
+                    </div>
+                    <div class="date-right">
+                        <h3>{{ date.title }}</h3>
+                        {% if date.description %}
+                        <p>{{ date.description }}</p>
+                        {% endif %}
+                        <small>
+                            {% if date.days_until >= 0 %}
+                                In {{ date.days_until }} days
+                            {% else %}
+                                {{ date.days_until|stringformat:"d"|slice:"1:" }} days ago
+                            {% endif %}
+                            {% if date.is_recurring %} • Recurring 🔄{% endif %}
+                        </small>
+                        <p style="margin-top: 5px;"><small>Added by {{ date.created_by.username }}</small></p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card">
+                <p style="text-align: center;">No important dates yet! Add your first one above 💕</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Beautiful Ending Message -->
+    <div class="ending-message">
+        <div class="hearts-decoration">💕 💖 💗 💝 💞</div>
+        <p class="ending-text">
+            If you ever forget how loved you are… come back here.<br>
+            <strong>This website is proof.</strong>
+        </p>
+        <div class="hearts-decoration">💞 💝 💗 💖 💕</div>
+    </div>
+</div>
+
+</body>
+</html>
